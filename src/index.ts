@@ -106,27 +106,15 @@ const changeTheMeridiem = (time: string, value: any) => {
 };
 
 const convertMinIntoHoursAndMin = (time: string): string => {
-  var num = time;
-  var hours = Number(num) / 60;
-  console.log(
-    "🚀 ~ file: index.ts:92 ~ convertMinIntoHoursAndMin ~ hours:",
-    hours
-  );
-  var rhours = Math.floor(hours);
-  console.log(
-    "🚀 ~ file: index.ts:94 ~ convertMinIntoHoursAndMin ~ rhours:",
-    rhours
-  );
-  var minutes = (hours - rhours) * 60;
-  var rminutes = Math.round(minutes);
-
-  if (rhours === 0) {
-    return `${rminutes}min`;
-  } else {
-    return `${rhours}${HOUR} ${rminutes}${MINUTE}`;
-  }
+  const minutes = Number(time);
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  
+  const hourString = hours > 0 ? `${hours}${HOUR} ` : '';
+  const minuteString = `${remainingMinutes}${MINUTE}`;
+  
+  return `${hourString}${minuteString}`;
 };
-convertMinIntoHoursAndMin("300");
 
 const titleCase = (str: string) => {
   return str
@@ -139,24 +127,13 @@ const titleCase = (str: string) => {
 };
 
 const dayNameToPrefix = (dayName: string) => {
-  switch (dayName) {
-    case "Monday":
-      return "M";
-    case "Tuesday":
-      return "T";
-    case "Wednesday":
-      return "W";
-    case "Thursday":
-      return "TR";
-    case "Friday":
-      return "F";
-    case "Saturday":
-      return "S";
-    case "Sunday":
-      return "SN";
-    default:
-      return "";
-  }
+  if (dayName.includes("Monday")) return "M";
+  if (dayName.includes("Tuesday")) return "T";
+  if (dayName.includes("Wednesday")) return "W";
+  if (dayName.includes("Thursday")) return "TR";
+  if (dayName.includes("Friday")) return "F";
+  if (dayName.includes("Saturday")) return "S";
+  if (dayName.includes("Sunday")) return "SN";
 };
 
 const extractTitleFirstWord = (str: string): string => {
@@ -173,36 +150,29 @@ const extractTitleFirstWord = (str: string): string => {
   return word;
 };
 
-export const providerServiceSorting = (data) => {
-  let sorting = data.sort(
-    (a: { providerService: any }, b: { providerService: any }) => {
-      if (a?.providerService && b?.providerService) {
-        return b?.providerService.status - a?.providerService.status;
-      } else if (a?.providerService && !b?.providerService) {
-        return -1;
-      } else if (!a?.providerService && b?.providerService) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
-  );
-  return sorting;
-};
-
-const CS_Styles = {
-  control: (base) => ({
-    ...base,
-    borderColor: "red",
-  }),
-};
+// export const providerServiceSorting = (data) => {
+//   let sorting = data.sort(
+//     (a: { providerService: any }, b: { providerService: any }) => {
+//       if (a?.providerService && b?.providerService) {
+//         return b?.providerService.status - a?.providerService.status;
+//       } else if (a?.providerService && !b?.providerService) {
+//         return -1;
+//       } else if (!a?.providerService && b?.providerService) {
+//         return 1;
+//       } else {
+//         return 0;
+//       }
+//     }
+//   );
+//   return sorting;
+// };
 
 const percentage = (total: Array<number>, percent: number) => {
   const temp = total.reduce((sum: number, record: number) => sum + record);
   return (temp / percent) * 100;
 };
 
-function reverseArry(array: any[]) {
+function reverseArray(array: any[]) {
   return array?.map((item, idx) => array[array.length - 1 - idx]);
 }
 
@@ -349,10 +319,59 @@ const RegEx = {
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
 };
 
+const uLocalStorage = {
+  getItem: (key: string): any => {
+    if (!localStorage) {
+      return;
+    }
+    try {
+      const item = localStorage.getItem(key);
+      if (item) {
+        return JSON.parse(item);
+      }
+    } catch (error) {
+      console.error("LOCAL STORAGE GET ITEM ERROR", error);
+    }
+  },
+
+  setItem: (key: string, value: any): void => {
+    if (!localStorage) {
+      return;
+    }
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error("LOCAL STORAGE SET ITEM ERROR", error);
+    }
+  },
+
+  removeItem: (key: string): void => {
+    if (!localStorage) {
+      return;
+    }
+    try {
+      localStorage.removeItem(key);
+    } catch (error) {
+      console.error("LOCAL STORAGE REMOVE ITEM ERROR", error);
+    }
+  },
+
+  clear: (): void => {
+    if (!localStorage) {
+      return;
+    }
+    try {
+      localStorage.clear();
+    } catch (error) {
+      console.error("LOCAL STORAGE CLEAR ERROR", error);
+    }
+  },
+};
+
 export {
   generateRandomIntegerInRange,
   generateRandomString,
-  reverseArry,
+  reverseArray as reverseArry,
   generateAlphabet,
   UTILS_TEST,
   utilsTest,
@@ -377,33 +396,5 @@ export {
   copyToClipboard,
   openInNewTab,
   RegEx,
+  uLocalStorage,
 };
-
-generateRandomString,
-reverseArry,
-UTILS_TEST,
-utilsTest,
-convertTime12to24,
-setPageLocation,
-getPageLocation,
-convert24To12,
-removePageLocation,
-changeTheMeridiem,
-convertMinIntoHoursAndMin,
-titleCase,
-extractTitleFirstWord,
-percentage,
-generateTimeStamp,
-CS_Styles,
-addPipeToList,
-array_to_CSV,
-CompareArrays,
-getTotal,
-hasIntersection,
-getTimeAgo,
-getLastOnlineStatus,
-copyToClipboard,
-openInNewTab,
-requestNotificationPermission,
-getDeviceType,
-formatFirebaseTimestamp,
