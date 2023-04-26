@@ -109,10 +109,10 @@ const convertMinIntoHoursAndMin = (time: string): string => {
   const minutes = Number(time);
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
-  
-  const hourString = hours > 0 ? `${hours}${HOUR} ` : '';
+
+  const hourString = hours > 0 ? `${hours}${HOUR} ` : "";
   const minuteString = `${remainingMinutes}${MINUTE}`;
-  
+
   return `${hourString}${minuteString}`;
 };
 
@@ -314,6 +314,8 @@ function openInNewTab(url: string | URL) {
   window.focus();
 }
 
+const uString = {};
+const uTime = {};
 const RegEx = {
   phone:
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
@@ -386,7 +388,6 @@ export {
   extractTitleFirstWord,
   percentage,
   generateTimeStamp,
-  CS_Styles,
   showTime,
   getTotal,
   isIncluded,
@@ -396,5 +397,8 @@ export {
   copyToClipboard,
   openInNewTab,
   RegEx,
+  //main feature
   uLocalStorage,
+  uString,
+  uTime,
 };
