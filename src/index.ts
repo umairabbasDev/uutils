@@ -27,6 +27,53 @@ const utilsTest = (value: String): String => {
   return value;
 };
 
+
+
+// const setPageLocation = (pageUrl: string) => {
+//   if (!localStorage) {
+//     return;
+//   }
+//   try {
+//     localStorage.setItem(PAGE_PATHNAME, pageUrl);
+//   } catch (error) {
+//     console.error("PAGE LOCATION STORAGE SAVE ERROR", error);
+//   }
+// };
+
+// const getPageLocation = (): string | undefined => {
+//   if (!localStorage) {
+//     return;
+//   }
+
+//   const lsValue: string | null = localStorage.getItem(PAGE_PATHNAME);
+//   if (!lsValue) {
+//     return;
+//   }
+
+//   try {
+//     // const url: string = JSON.parse(lsValue);
+//     // if (url) {
+//     // console.log(lsValue);
+
+//     return lsValue;
+//     // }
+//   } catch (error) {
+//     console.error("PAGE LOCATION STORAGE SAVE ERROR", error);
+//   }
+// };
+
+// const removePageLocation = () => {
+//   if (!localStorage) {
+//     return;
+//   }
+
+//   try {
+//     localStorage.removeItem(PAGE_PATHNAME);
+//   } catch (error) {
+//     console.error("PAGE PATHNAME LOCAL STORAGE REMOVE ERROR", error);
+//   }
+// };
+
 const convertTime12to24 = (time12h: any) => {
   const [time, modifier] = time12h?.split(" ");
 
@@ -44,40 +91,6 @@ const convertTime12to24 = (time12h: any) => {
 
   return `${hours}:${minutes}`;
 };
-
-const setPageLocation = (pageUrl: string) => {
-  if (!localStorage) {
-    return;
-  }
-  try {
-    localStorage.setItem(PAGE_PATHNAME, pageUrl);
-  } catch (error) {
-    console.error("PAGE LOCATION STORAGE SAVE ERROR", error);
-  }
-};
-
-const getPageLocation = (): string | undefined => {
-  if (!localStorage) {
-    return;
-  }
-
-  const lsValue: string | null = localStorage.getItem(PAGE_PATHNAME);
-  if (!lsValue) {
-    return;
-  }
-
-  try {
-    // const url: string = JSON.parse(lsValue);
-    // if (url) {
-    // console.log(lsValue);
-
-    return lsValue;
-    // }
-  } catch (error) {
-    console.error("PAGE LOCATION STORAGE SAVE ERROR", error);
-  }
-};
-
 const convert24To12 = (time: string) => {
   //   return moment(time, "hh:mm").format("LT");
   return true;
@@ -88,23 +101,22 @@ export const formateTheDate = (date: string) => {
   return true;
 };
 
-const removePageLocation = () => {
-  if (!localStorage) {
-    return;
+
+const changeTheMeridiem = (time: string, newMeridiem: string): string => {
+  // const meridiems = ["AM", "PM"];
+
+  const [timeString, meridiem] = time.split(" ");
+
+  const timeRegex = /^(1[0-2]|0?\d):([0-5]\d)$/;
+
+  if (!timeRegex.test(timeString)) {
+    throw new Error(
+      `Invalid time format "${time}". The function only accepts 12-hour time format.`
+    );
   }
 
-  try {
-    localStorage.removeItem(PAGE_PATHNAME);
-  } catch (error) {
-    console.error("PAGE PATHNAME LOCAL STORAGE REMOVE ERROR", error);
-  }
+  return `${timeString} ${newMeridiem}`;
 };
-
-const changeTheMeridiem = (time: string, value: any) => {
-  let tempTime = time.split(" ")[0];
-  return `${tempTime} ${value}`;
-};
-
 const convertMinIntoHoursAndMin = (time: string): string => {
   const minutes = Number(time);
   const hours = Math.floor(minutes / 60);
@@ -150,22 +162,7 @@ const extractTitleFirstWord = (str: string): string => {
   return word;
 };
 
-// export const providerServiceSorting = (data) => {
-//   let sorting = data.sort(
-//     (a: { providerService: any }, b: { providerService: any }) => {
-//       if (a?.providerService && b?.providerService) {
-//         return b?.providerService.status - a?.providerService.status;
-//       } else if (a?.providerService && !b?.providerService) {
-//         return -1;
-//       } else if (!a?.providerService && b?.providerService) {
-//         return 1;
-//       } else {
-//         return 0;
-//       }
-//     }
-//   );
-//   return sorting;
-// };
+// TODO: add sorting functions
 
 const percentage = (total: Array<number>, percent: number) => {
   const temp = total.reduce((sum: number, record: number) => sum + record);
@@ -378,10 +375,7 @@ export {
   UTILS_TEST,
   utilsTest,
   convertTime12to24,
-  setPageLocation,
-  getPageLocation,
   convert24To12,
-  removePageLocation,
   changeTheMeridiem,
   convertMinIntoHoursAndMin,
   titleCase,
