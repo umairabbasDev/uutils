@@ -228,8 +228,8 @@ function getTotal(Arr: any[], key: string | undefined): number {
     return Arr?.reduce((sum, item) => {
       if (typeof item[key] === 'number') {
         return sum + item[key];
-      } else if (!isNaN(parseInt(item[key],3))) {
-        return sum + parseInt(item[key],3);
+      } else if (!isNaN(Number(item[key]))) {
+        return sum + Number(item[key]);
       } else {
         return sum;
       }
