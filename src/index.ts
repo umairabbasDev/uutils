@@ -7,19 +7,19 @@ export const REGION = undefined; // it will get region of current location that'
 // export const REGION = "en-US";
 
 export const TIME_OPTIONS = {
-  hour: "numeric",
-  minute: "2-digit",
+  hour: 'numeric',
+  minute: '2-digit',
   hour12: true,
 
   // second: "2-digit",
   // timeZone: 'Australia/Sydney',
   // timeZoneName: "short",
 };
-export const MINUTE = "min";
-export const HOUR = "hr";
+export const MINUTE = 'min';
+export const HOUR = 'hr';
 
-const UTILS_TEST = "Util testing ";
-const PAGE_PATHNAME = "pageUrl";
+const UTILS_TEST = 'Util testing ';
+const PAGE_PATHNAME = 'pageUrl';
 
 const utilsTest = (value: String): String => {
   // console.log(`value => ${value} `);
@@ -73,17 +73,17 @@ const utilsTest = (value: String): String => {
 // };
 
 const convertTime12to24 = (time12h: any) => {
-  const [time, modifier] = time12h?.split(" ");
+  const [time, modifier] = time12h?.split(' ');
 
   // console.log(time, modifier);
 
-  let [hours, minutes] = time?.split(":");
+  let [hours, minutes] = time?.split(':');
 
-  if (hours === "12") {
-    hours = "00";
+  if (hours === '12') {
+    hours = '00';
   }
 
-  if (modifier === "PM") {
+  if (modifier === 'PM') {
     hours = (parseInt(hours, 10) + 12) as any;
   }
 
@@ -102,14 +102,12 @@ export const formateTheDate = (date: string) => {
 const changeTheMeridiem = (time: string, newMeridiem: string): string => {
   // const meridiems = ["AM", "PM"];
 
-  const [timeString, meridiem] = time.split(" ");
+  const [timeString, meridiem] = time.split(' ');
 
   const timeRegex = /^(1[0-2]|0?\d):([0-5]\d)$/;
 
   if (!timeRegex.test(timeString)) {
-    throw new Error(
-      `Invalid time format "${time}". The function only accepts 12-hour time format.`
-    );
+    throw new Error(`Invalid time format "${time}". The function only accepts 12-hour time format.`);
   }
 
   return `${timeString} ${newMeridiem}`;
@@ -119,7 +117,7 @@ const convertMinIntoHoursAndMin = (time: string): string => {
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
 
-  const hourString = hours > 0 ? `${hours}${HOUR} ` : "";
+  const hourString = hours > 0 ? `${hours}${HOUR} ` : '';
   const minuteString = `${remainingMinutes}${MINUTE}`;
 
   return `${hourString}${minuteString}`;
@@ -128,37 +126,37 @@ const convertMinIntoHoursAndMin = (time: string): string => {
 const titleCase = (str: string) => {
   return str
     .toLowerCase()
-    .split(" ")
+    .split(' ')
     .map(function (word) {
       return word.replace(word[0], word[0].toUpperCase());
     })
-    .join(" ");
+    .join(' ');
 };
 
 const dayNameToPrefix = (dayName: string): string => {
-  let prefix = "";
+  let prefix = '';
   const compStr = dayName.toLowerCase();
   switch (compStr) {
-    case "monday":
-      prefix = "M";
+    case 'monday':
+      prefix = 'M';
       break;
-    case "tuesday":
-      prefix = "T";
+    case 'tuesday':
+      prefix = 'T';
       break;
-    case "wednesday":
-      prefix = "W";
+    case 'wednesday':
+      prefix = 'W';
       break;
-    case "thursday":
-      prefix = "TR";
+    case 'thursday':
+      prefix = 'TR';
       break;
-    case "friday":
-      prefix = "F";
+    case 'friday':
+      prefix = 'F';
       break;
-    case "saturday":
-      prefix = "S";
+    case 'saturday':
+      prefix = 'S';
       break;
-    case "sunday":
-      prefix = "SN";
+    case 'sunday':
+      prefix = 'SN';
       break;
     default:
       console.error(`Invalid input: ${dayName}`);
@@ -167,13 +165,11 @@ const dayNameToPrefix = (dayName: string): string => {
 };
 
 const extractTitleFirstWord = (str: string): string => {
-  let data = str?.toLowerCase().split(" ");
+  let data = str?.toLowerCase().split(' ');
   let word;
-  if (str?.split(" ").length > 1) {
+  if (str?.split(' ').length > 1) {
     // console.log(data.length - 1);
-    word = `${data?.[0]?.[0]?.toUpperCase()}${data[
-      data.length - 1
-    ]?.[0]?.toUpperCase()}`;
+    word = `${data?.[0]?.[0]?.toUpperCase()}${data[data.length - 1]?.[0]?.toUpperCase()}`;
   } else {
     word = data?.[0]?.[0]?.toUpperCase();
   }
@@ -194,9 +190,8 @@ function reverseArray(array: any[]) {
 const generateTimeStamp = () => Date.now();
 
 function generateRandomString(length: number) {
-  var result = "";
-  var characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
   for (var i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -231,7 +226,7 @@ function getTotal(Arr: Array<any>, key: string | undefined): number {
     return Arr?.reduce((sum, item) => sum + item, 0);
   } else {
     return Arr?.reduce((sum, item) => {
-      if (typeof item[key] === "number") {
+      if (typeof item[key] === 'number') {
         return sum + item[key];
       } else if (!isNaN(parseInt(item[key]))) {
         return sum + parseInt(item[key]);
@@ -256,13 +251,8 @@ function isIncluded(array1: Array<any>, array2: Array<any>): boolean {
   });
 }
 
-function getTimeAgo(timestamp: {
-  seconds: number;
-  nanoseconds: number;
-}): string {
-  const date = new Date(
-    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-  ); // Convert Firestore timestamp to Date object
+function getTimeAgo(timestamp: { seconds: number; nanoseconds: number }): string {
+  const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000); // Convert Firestore timestamp to Date object
   const now = new Date(); // Current time
   // console.log("timestamp ", timestamp.nanoseconds);
 
@@ -276,25 +266,25 @@ function getTimeAgo(timestamp: {
   const year = 365 * day; // Number of milliseconds in a year
 
   if (diff < minute) {
-    return "just now";
+    return 'just now';
   } else if (diff < hour) {
     const minutesAgo = Math.floor(diff / minute);
-    return `${minutesAgo} ${minutesAgo === 1 ? "minute" : "minutes"} ago`;
+    return `${minutesAgo} ${minutesAgo === 1 ? 'minute' : 'minutes'} ago`;
   } else if (diff < day) {
     const hoursAgo = Math.floor(diff / hour);
-    return `${hoursAgo} ${hoursAgo === 1 ? "hour" : "hours"} ago`;
+    return `${hoursAgo} ${hoursAgo === 1 ? 'hour' : 'hours'} ago`;
   } else if (diff < week) {
     const daysAgo = Math.floor(diff / day);
-    return `${daysAgo} ${daysAgo === 1 ? "day" : "days"} ago`;
+    return `${daysAgo} ${daysAgo === 1 ? 'day' : 'days'} ago`;
   } else if (diff < month) {
     const weeksAgo = Math.floor(diff / week);
-    return `${weeksAgo} ${weeksAgo === 1 ? "week" : "weeks"} ago`;
+    return `${weeksAgo} ${weeksAgo === 1 ? 'week' : 'weeks'} ago`;
   } else if (diff < year) {
     const monthsAgo = Math.floor(diff / month);
-    return `${monthsAgo} ${monthsAgo === 1 ? "month" : "months"} ago`;
+    return `${monthsAgo} ${monthsAgo === 1 ? 'month' : 'months'} ago`;
   } else {
     const yearsAgo = Math.floor(diff / year);
-    return `${yearsAgo} ${yearsAgo === 1 ? "year" : "years"} ago`;
+    return `${yearsAgo} ${yearsAgo === 1 ? 'year' : 'years'} ago`;
   }
 }
 
@@ -321,19 +311,18 @@ function getLastOnlineStatus(modifiedAt: ModifiedAt): string {
 
 const copyToClipboard = (e: string) => {
   navigator.clipboard.writeText(e);
-  alert("Copied to clipboard");
+  alert('Copied to clipboard');
 };
 
 function openInNewTab(url: string | URL) {
-  window.open(url, "_blank");
+  window.open(url, '_blank');
   window.focus();
 }
 
 const uString = {};
 const uTime = {};
 const RegEx = {
-  phone:
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+  phone: /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
 };
 
 const uLocalStorage = {
@@ -347,7 +336,7 @@ const uLocalStorage = {
         return JSON.parse(item);
       }
     } catch (error) {
-      console.error("LOCAL STORAGE GET ITEM ERROR", error);
+      console.error('LOCAL STORAGE GET ITEM ERROR', error);
     }
   },
 
@@ -358,7 +347,7 @@ const uLocalStorage = {
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
-      console.error("LOCAL STORAGE SET ITEM ERROR", error);
+      console.error('LOCAL STORAGE SET ITEM ERROR', error);
     }
   },
 
@@ -369,7 +358,7 @@ const uLocalStorage = {
     try {
       localStorage.removeItem(key);
     } catch (error) {
-      console.error("LOCAL STORAGE REMOVE ITEM ERROR", error);
+      console.error('LOCAL STORAGE REMOVE ITEM ERROR', error);
     }
   },
 
@@ -380,7 +369,7 @@ const uLocalStorage = {
     try {
       localStorage.clear();
     } catch (error) {
-      console.error("LOCAL STORAGE CLEAR ERROR", error);
+      console.error('LOCAL STORAGE CLEAR ERROR', error);
     }
   },
 };
