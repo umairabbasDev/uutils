@@ -1,0 +1,23 @@
+{
+  "name": "uutils",
+  "version": "1.0.0",
+  "description": "utilities ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umairabbasDev/uutils.git"
+  },
+  "author": "umairabbasDev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/umairabbasDev/uutils/issues"
+  },
+  "homepage": "https://github.com/umairabbasDev/uutils#readme",
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  }
+}
