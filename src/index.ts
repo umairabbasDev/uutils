@@ -27,8 +27,6 @@ const utilsTest = (value: String): String => {
   return value;
 };
 
-
-
 // const setPageLocation = (pageUrl: string) => {
 //   if (!localStorage) {
 //     return;
@@ -101,7 +99,6 @@ export const formateTheDate = (date: string) => {
   return true;
 };
 
-
 const changeTheMeridiem = (time: string, newMeridiem: string): string => {
   // const meridiems = ["AM", "PM"];
 
@@ -138,14 +135,35 @@ const titleCase = (str: string) => {
     .join(" ");
 };
 
-const dayNameToPrefix = (dayName: string) => {
-  if (dayName.includes("Monday")) return "M";
-  if (dayName.includes("Tuesday")) return "T";
-  if (dayName.includes("Wednesday")) return "W";
-  if (dayName.includes("Thursday")) return "TR";
-  if (dayName.includes("Friday")) return "F";
-  if (dayName.includes("Saturday")) return "S";
-  if (dayName.includes("Sunday")) return "SN";
+const dayNameToPrefix = (dayName: string): string => {
+  let prefix = "";
+  const compStr = dayName.toLowerCase();
+  switch (compStr) {
+    case "monday":
+      prefix = "M";
+      break;
+    case "tuesday":
+      prefix = "T";
+      break;
+    case "wednesday":
+      prefix = "W";
+      break;
+    case "thursday":
+      prefix = "TR";
+      break;
+    case "friday":
+      prefix = "F";
+      break;
+    case "saturday":
+      prefix = "S";
+      break;
+    case "sunday":
+      prefix = "SN";
+      break;
+    default:
+      console.error(`Invalid input: ${dayName}`);
+  }
+  return prefix;
 };
 
 const extractTitleFirstWord = (str: string): string => {
@@ -301,7 +319,7 @@ function getLastOnlineStatus(modifiedAt: ModifiedAt): string {
   }
 }
 
-const copyToClipboard = (e) => {
+const copyToClipboard = (e: string) => {
   navigator.clipboard.writeText(e);
   alert("Copied to clipboard");
 };

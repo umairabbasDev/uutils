@@ -1,4 +1,4 @@
-export function numFormatter(num) {
+export function numFormatter(num:number) {
     if (num > 999 && num < 1000000) {
         return (num / 1000).toFixed(1) + 'k';
     } else if (num > 1000000) {
@@ -8,6 +8,6 @@ export function numFormatter(num) {
     }
 }
 
-export function addZero(num) {
+export function addZero(num:number) {
     return num < 10 ? '0' + num : num;
 }
