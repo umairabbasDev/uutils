@@ -21,11 +21,11 @@ export const HOUR = 'hr';
 const UTILS_TEST = 'Util testing ';
 const PAGE_PATHNAME = 'pageUrl';
 
-const utilsTest = (value: String): String => {
-  // console.log(`value => ${value} `);
+// const utilsTest = (value: string): string => {
+//   // console.log(`value => ${value} `);
 
-  return value;
-};
+//   return value;
+// };
 
 // const setPageLocation = (pageUrl: string) => {
 //   if (!localStorage) {
@@ -86,7 +86,7 @@ const convertTime12to24 = (time12h: any) => {
   if (modifier === 'PM') {
     hours = (parseInt(hours, 10) + 12) as any;
   }
-
+  minutes = minutes;
   return `${hours}:${minutes}`;
 };
 const convert24To12 = (time: string) => {
@@ -127,7 +127,7 @@ const titleCase = (str: string) => {
   return str
     .toLowerCase()
     .split(' ')
-    .map(function (word) {
+    .map((word) => {
       return word.replace(word[0], word[0].toUpperCase());
     })
     .join(' ');
@@ -159,13 +159,13 @@ const dayNameToPrefix = (dayName: string): string => {
       prefix = 'SN';
       break;
     default:
-      console.error(`Invalid input: ${dayName}`);
+      throw new Error(`Invalid input: ${dayName}`);
   }
   return prefix;
 };
 
 const extractTitleFirstWord = (str: string): string => {
-  let data = str?.toLowerCase().split(' ');
+  const data = str?.toLowerCase().split(' ');
   let word;
   if (str?.split(' ').length > 1) {
     // console.log(data.length - 1);
@@ -178,7 +178,7 @@ const extractTitleFirstWord = (str: string): string => {
 
 // TODO: add sorting functions
 
-const percentage = (total: Array<number>, percent: number) => {
+const percentage = (total: number[], percent: number) => {
   const temp = total.reduce((sum: number, record: number) => sum + record);
   return (temp / percent) * 100;
 };
@@ -190,10 +190,10 @@ function reverseArray(array: any[]) {
 const generateTimeStamp = () => Date.now();
 
 function generateRandomString(length: number) {
-  var result = '';
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
@@ -221,15 +221,15 @@ function showTime(time: Date) {
  *
  * @returns {number} - The sum of the elements in the array.
  */
-function getTotal(Arr: Array<any>, key: string | undefined): number {
+function getTotal(Arr: any[], key: string | undefined): number {
   if (!key) {
     return Arr?.reduce((sum, item) => sum + item, 0);
   } else {
     return Arr?.reduce((sum, item) => {
       if (typeof item[key] === 'number') {
         return sum + item[key];
-      } else if (!isNaN(parseInt(item[key]))) {
-        return sum + parseInt(item[key]);
+      } else if (!isNaN(parseInt(item[key],3))) {
+        return sum + parseInt(item[key],3);
       } else {
         return sum;
       }
@@ -245,10 +245,8 @@ function getTotal(Arr: Array<any>, key: string | undefined): number {
  *
  * @returns {boolean} - Returns `true` if at least one element from `array1` is included in `array2`, and `false` otherwise.
  */
-function isIncluded(array1: Array<any>, array2: Array<any>): boolean {
-  return array1.some(function (element) {
-    return array2.includes(element);
-  });
+function isIncluded(array1:any[], array2: any[]): boolean {
+  return array1.some((element)=> array2.includes(element));
 }
 
 function getTimeAgo(timestamp: { seconds: number; nanoseconds: number }): string {
@@ -336,7 +334,7 @@ const uLocalStorage = {
         return JSON.parse(item);
       }
     } catch (error) {
-      console.error('LOCAL STORAGE GET ITEM ERROR', error);
+      throw new Error(`LOCAL STORAGE GET ITEM ERROR ${error}` );
     }
   },
 
@@ -347,7 +345,7 @@ const uLocalStorage = {
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
-      console.error('LOCAL STORAGE SET ITEM ERROR', error);
+      throw new Error(`LOCAL STORAGE SET ITEM ERROR ${error}`);
     }
   },
 
@@ -358,7 +356,7 @@ const uLocalStorage = {
     try {
       localStorage.removeItem(key);
     } catch (error) {
-      console.error('LOCAL STORAGE REMOVE ITEM ERROR', error);
+      throw new Error(`LOCAL STORAGE REMOVE ITEM ERROR ${error}`);
     }
   },
 
@@ -369,7 +367,7 @@ const uLocalStorage = {
     try {
       localStorage.clear();
     } catch (error) {
-      console.error('LOCAL STORAGE CLEAR ERROR', error);
+      throw new Error(`LOCAL STORAGE CLEAR ERROR ${error}`);
     }
   },
 };
@@ -380,7 +378,6 @@ export {
   reverseArray as reverseArry,
   generateAlphabet,
   UTILS_TEST,
-  utilsTest,
   convertTime12to24,
   convert24To12,
   changeTheMeridiem,
@@ -398,7 +395,7 @@ export {
   copyToClipboard,
   openInNewTab,
   RegEx,
-  //main feature
+  // main feature
   uLocalStorage,
   uString,
   uTime,
