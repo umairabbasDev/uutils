@@ -1,5 +1,5 @@
 {
-  "name": "@u/utils",
+  "name": "mock-utils",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
