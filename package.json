@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup index.ts --format cjs,esm --dts",
-    "release": "pnpm run build && pnpm publish --access public",
+    "release": "pnpm run build && changeset publish",
     "lint": "tsc"
   },
   "keywords": [],
