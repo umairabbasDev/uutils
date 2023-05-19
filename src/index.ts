@@ -254,47 +254,73 @@ function isIncluded(array1: any[], array2: any[]): boolean {
   return array1.some((element) => array2.includes(element));
 }
 
-function getTimeAgo(timestamp: {
-  seconds: number;
-  nanoseconds: number;
-}): string {
-  const date = new Date(
-    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-  ); // Convert Firestore timestamp to Date object
-  const now = new Date(); // Current time
-  // console.log("timestamp ", timestamp.nanoseconds);
 
-  const diff = now.getTime() - date.getTime(); // Difference in milliseconds
+function getTimeAgo(timestamp: { seconds: number; nanoseconds: number }): string {
+  const now = Date.now();
+  const date = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;
+  const diff = now - date;
 
-  const minute = 60 * 1000; // Number of milliseconds in a minute
-  const hour = 60 * minute; // Number of milliseconds in an hour
-  const day = 24 * hour; // Number of milliseconds in a day
-  const week = 7 * day; // Number of milliseconds in a week
-  const month = 30 * day; // Number of milliseconds in a month
-  const year = 365 * day; // Number of milliseconds in a year
+  const timeUnits = [
+    { unit: 'year', duration: 365 * 24 * 60 * 60 * 1000 },
+    { unit: 'month', duration: 30 * 24 * 60 * 60 * 1000 },
+    { unit: 'week', duration: 7 * 24 * 60 * 60 * 1000 },
+    { unit: 'day', duration: 24 * 60 * 60 * 1000 },
+    { unit: 'hour', duration: 60 * 60 * 1000 },
+    { unit: 'minute', duration: 60 * 1000 }
+  ];
 
-  if (diff < minute) {
-    return "just now";
-  } else if (diff < hour) {
-    const minutesAgo = Math.floor(diff / minute);
-    return `${minutesAgo} ${minutesAgo === 1 ? "minute" : "minutes"} ago`;
-  } else if (diff < day) {
-    const hoursAgo = Math.floor(diff / hour);
-    return `${hoursAgo} ${hoursAgo === 1 ? "hour" : "hours"} ago`;
-  } else if (diff < week) {
-    const daysAgo = Math.floor(diff / day);
-    return `${daysAgo} ${daysAgo === 1 ? "day" : "days"} ago`;
-  } else if (diff < month) {
-    const weeksAgo = Math.floor(diff / week);
-    return `${weeksAgo} ${weeksAgo === 1 ? "week" : "weeks"} ago`;
-  } else if (diff < year) {
-    const monthsAgo = Math.floor(diff / month);
-    return `${monthsAgo} ${monthsAgo === 1 ? "month" : "months"} ago`;
-  } else {
-    const yearsAgo = Math.floor(diff / year);
-    return `${yearsAgo} ${yearsAgo === 1 ? "year" : "years"} ago`;
+  for (const { unit, duration } of timeUnits) {
+    if (diff >= duration) {
+      const timeAgo = Math.floor(diff / duration);
+      return `${timeAgo} ${unit}${timeAgo === 1 ? '' : 's'} ago`;
+    }
   }
+
+  return 'just now';
 }
+
+
+// function getTimeAgo(timestamp: {
+//   seconds: number;
+//   nanoseconds: number;
+// }): string {
+//   const date = new Date(
+//     timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+//   ); // Convert Firestore timestamp to Date object
+//   const now = new Date(); // Current time
+//   // console.log("timestamp ", timestamp.nanoseconds);
+
+//   const diff = now.getTime() - date.getTime(); // Difference in milliseconds
+
+//   const minute = 60 * 1000; // Number of milliseconds in a minute
+//   const hour = 60 * minute; // Number of milliseconds in an hour
+//   const day = 24 * hour; // Number of milliseconds in a day
+//   const week = 7 * day; // Number of milliseconds in a week
+//   const month = 30 * day; // Number of milliseconds in a month
+//   const year = 365 * day; // Number of milliseconds in a year
+
+//   if (diff < minute) {
+//     return "just now";
+//   } else if (diff < hour) {
+//     const minutesAgo = Math.floor(diff / minute);
+//     return `${minutesAgo} ${minutesAgo === 1 ? "minute" : "minutes"} ago`;
+//   } else if (diff < day) {
+//     const hoursAgo = Math.floor(diff / hour);
+//     return `${hoursAgo} ${hoursAgo === 1 ? "hour" : "hours"} ago`;
+//   } else if (diff < week) {
+//     const daysAgo = Math.floor(diff / day);
+//     return `${daysAgo} ${daysAgo === 1 ? "day" : "days"} ago`;
+//   } else if (diff < month) {
+//     const weeksAgo = Math.floor(diff / week);
+//     return `${weeksAgo} ${weeksAgo === 1 ? "week" : "weeks"} ago`;
+//   } else if (diff < year) {
+//     const monthsAgo = Math.floor(diff / month);
+//     return `${monthsAgo} ${monthsAgo === 1 ? "month" : "months"} ago`;
+//   } else {
+//     const yearsAgo = Math.floor(diff / year);
+//     return `${yearsAgo} ${yearsAgo === 1 ? "year" : "years"} ago`;
+//   }
+// }
 
 interface ModifiedAt {
   date: string;
