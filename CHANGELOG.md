@@ -1,5 +1,11 @@
 # @blackfiredev12/utils
 
+## 1.1.0
+
+### Minor Changes
+
+- ad2749b: project structure
+
 ## 1.0.0
 
 ### Major Changes

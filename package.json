@@ -1,6 +1,6 @@
 {
   "name": "@blackfiredev12/utils",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -19,7 +19,6 @@
     "url": "https://github.com/umairabbasDev/uutils/issues"
   },
   "homepage": "https://github.com/umairabbasDev/uutils#readme",
-  
   "keywords": [],
   "author": "umairabbasDev <umairabbas391@gmail.com>",
   "license": "MIT",
@@ -29,5 +28,7 @@
     "tsup": "^6.7.0",
     "typescript": "^5.0.4"
   },
-  "files": ["dist/**/*"]
+  "files": [
+    "dist/**/*"
+  ]
 }
