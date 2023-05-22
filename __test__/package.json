@@ -1,0 +1,15 @@
+{
+  "name": "__test__",
+  "version": "1.0.0",
+  "description": "",
+  "main": "utils.test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "umairabbasDev <umairabbas391@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@blackfiredev12/utils": "^0.0.1"
+  }
+}
