@@ -1,5 +1,15 @@
 # @blackfiredev/utils
 
+## 2.0.0
+
+### Major Changes
+
+- 1b286d9: new fun added - addPipeToList, arrayToCSV, compareInArray, getDeviceType,isDateSame, timeFormat
+
+### Minor Changes
+
+- 262d224: user name changed
+
 ## 1.1.0
 
 ### Minor Changes
