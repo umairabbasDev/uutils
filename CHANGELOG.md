@@ -1,4 +1,4 @@
-# @blackfiredev12/utils
+# @blackfiredev/utils
 
 ## 1.1.0
 
