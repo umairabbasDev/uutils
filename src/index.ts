@@ -256,7 +256,25 @@ function isIncluded(array1: any[], array2: any[]): boolean {
 
 
 
+function getTimeAgo(timestamp: Date) {
+  const now = new Date();
+  const weekAgo = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
+  const oneDay = new Date(timestamp.getFullYear(), timestamp.getMonth(), timestamp.getDate() + 1);
 
+  if (
+    timestamp.getFullYear() === now.getFullYear() &&
+    timestamp.getMonth() === now.getMonth() &&
+    timestamp.getDate() === now.getDate()
+  ) {
+    return "Today";
+  } else if (oneDay > weekAgo) {
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    return days[timestamp.getDay()];
+  } else {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    return `${months[timestamp.getMonth()]} ${timestamp.getDate()}, ${timestamp.getFullYear()}`;
+  }
+}
 
 interface ModifiedAt {
   date: string;
