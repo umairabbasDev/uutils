@@ -255,29 +255,29 @@ function isIncluded(array1: any[], array2: any[]): boolean {
 }
 
 
-function getTimeAgo(timestamp: { seconds: number; nanoseconds: number }): string {
-  const now = Date.now();
-  const date = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;
-  const diff = now - date;
+// function getTimeAgo(timestamp: { seconds: number; nanoseconds: number }): string {
+//   const now = Date.now();
+//   const date = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;
+//   const diff = now - date;
 
-  const timeUnits = [
-    { unit: 'year', duration: 365 * 24 * 60 * 60 * 1000 },
-    { unit: 'month', duration: 30 * 24 * 60 * 60 * 1000 },
-    { unit: 'week', duration: 7 * 24 * 60 * 60 * 1000 },
-    { unit: 'day', duration: 24 * 60 * 60 * 1000 },
-    { unit: 'hour', duration: 60 * 60 * 1000 },
-    { unit: 'minute', duration: 60 * 1000 }
-  ];
+//   const timeUnits = [
+//     { unit: 'year', duration: 365 * 24 * 60 * 60 * 1000 },
+//     { unit: 'month', duration: 30 * 24 * 60 * 60 * 1000 },
+//     { unit: 'week', duration: 7 * 24 * 60 * 60 * 1000 },
+//     { unit: 'day', duration: 24 * 60 * 60 * 1000 },
+//     { unit: 'hour', duration: 60 * 60 * 1000 },
+//     { unit: 'minute', duration: 60 * 1000 }
+//   ];
 
-  for (const { unit, duration } of timeUnits) {
-    if (diff >= duration) {
-      const timeAgo = Math.floor(diff / duration);
-      return `${timeAgo} ${unit}${timeAgo === 1 ? '' : 's'} ago`;
-    }
-  }
+//   for (const { unit, duration } of timeUnits) {
+//     if (diff >= duration) {
+//       const timeAgo = Math.floor(diff / duration);
+//       return `${timeAgo} ${unit}${timeAgo === 1 ? '' : 's'} ago`;
+//     }
+//   }
 
-  return 'just now';
-}
+//   return 'just now';
+// }
 
 
 // function getTimeAgo(timestamp: {
@@ -321,6 +321,28 @@ function getTimeAgo(timestamp: { seconds: number; nanoseconds: number }): string
 //     return `${yearsAgo} ${yearsAgo === 1 ? "year" : "years"} ago`;
 //   }
 // }
+
+
+function getTimeAgo(timestamp: Date) {
+  const now = new Date();
+  const weekAgo = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
+  const oneDay = new Date(timestamp.getFullYear(), timestamp.getMonth(), timestamp.getDate() + 1);
+
+  if (
+    timestamp.getFullYear() === now.getFullYear() &&
+    timestamp.getMonth() === now.getMonth() &&
+    timestamp.getDate() === now.getDate()
+  ) {
+    return "Today";
+  } else if (oneDay > weekAgo) {
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    return days[timestamp.getDay()];
+  } else {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    return `${months[timestamp.getMonth()]} ${timestamp.getDate()}, ${timestamp.getFullYear()}`;
+  }
+}
+
 
 interface ModifiedAt {
   date: string;
@@ -409,6 +431,82 @@ const uLocalStorage = {
   },
 };
 
+
+function addPipeToList(str: string) {
+  return str.split(" ").join("|");
+}
+
+function arrayToCSV(arr: Array<any>) {
+  return arr?.join();
+}
+
+
+function compareInArray<T>(needle: T, haystack: T[]): boolean {
+  for (const element of haystack) {
+    if (element === needle) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+enum DeviceType {
+  iOS = "iOS",
+  Android = "Android",
+  Tablet = "Tablet",
+  TV = "TV",
+  Desktop = "Desktop",
+  TouchDesktop = "TouchDesktop"
+}
+
+function getDeviceType(): DeviceType {
+  const userAgent: string = navigator.userAgent;
+  const isTouchDevice: boolean = /(iPhone|iPad|iPod|Android|Windows Phone)/i.test(userAgent);
+  const isTablet: boolean = /(iPad|Nexus 7|Kindle Fire HD)/i.test(userAgent);
+  const isTV: boolean = /(Apple TV|Roku|Fire TV)/i.test(userAgent);
+  const isTouchDesktop: boolean = /(touch)/i.test(userAgent) && !isTablet && !isTV;
+
+  if (isTouchDevice) {
+    if (isTablet) {
+      return DeviceType.Tablet;
+    } else if (isTV) {
+      return DeviceType.TV;
+    } else if (isTouchDesktop) {
+      return DeviceType.TouchDesktop;
+    } else {
+      return DeviceType.iOS;
+    }
+  } else {
+    return DeviceType.Desktop;
+  }
+}
+
+
+function isDateSame(date1: Date, date2: Date): boolean {
+  return date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate();
+}
+
+
+
+function timeFormat(time: string | Date | number, local?: string): string {
+  const date = new Date(time);
+  const locale = navigator.language
+  const formattedTime = date.toLocaleTimeString(
+    locale,
+    {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    }
+  );
+  return formattedTime;
+}
+
+
+
 export {
   generateRandomIntegerInRange,
   generateRandomString,
@@ -436,4 +534,10 @@ export {
   uLocalStorage,
   uString,
   uTime,
+  arrayToCSV,
+  addPipeToList,
+  compareInArray,
+  getDeviceType,
+  timeFormat,
+  isDateSame
 };
