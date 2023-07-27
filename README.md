@@ -1,1 +1,3 @@
-# This is a testing phase project
+# The helping functions pacakges 
+
+### This project still in development phase 
