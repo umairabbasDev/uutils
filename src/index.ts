@@ -368,8 +368,12 @@ function addPipeToList(str: string) {
   return str.split(" ").join("|");
 }
 
-function arrayToCSV(arr: Array<any>) {
-  return arr?.join();
+function arrayToCSV<T>(arr: T[]): string {
+  if (!Array.isArray(arr)) {
+    throw new Error('Input is not an array');
+  }
+  
+  return arr.join(',');
 }
 
 
